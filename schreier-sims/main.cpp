@@ -2,10 +2,10 @@
 #include "perm.hpp"
 
 const int radix = 1e7;
-struct B {
+struct bigint {
 	std::vector<int> v;
-	B() : v(1) {}
-	inline B &operator*=(int x) {
+	bigint() : v(1) {}
+	inline bigint &operator*=(int x) {
 		if (v.back() > radix / x) v.emplace_back(0);
 		for (int i = 0; i < v.size(); i++) v[i] *= x;
 		for (int i = 0; i < v.size() - 1; i++) {
@@ -114,7 +114,7 @@ int main() {
 		s.extend(v);
 		// s.print();
 	}
-	B b;
+	bigint b;
 	b.v[0] = 1;
 	for (schreier_sims *p = &s; p->subgroup; p = p->subgroup) b *= p->size();
 	b.print();
