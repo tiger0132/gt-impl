@@ -63,22 +63,17 @@ public:
 					break;
 				}
 
-			perm h(g.size());
-			do {
-				emplace_perm(h);
-				h *= g;
-			} while (h[base] != base);
+			emplace_perm(g.size());
+			subgroup = new schreier_sims();
+		}
 
-			(subgroup = new schreier_sims())->extend(h);
-		} else {
-			int orig_sz = trans.size();
-			for (int i = 0; i < orig_sz; i++) {
-				perm &p = trans[i];
-				if (!orbit.count(g[p[base]]))
-					add_orbit(p * g);
-				else
-					subgroup->extend(p * g * ~orbit.at(g[p[base]]));
-			}
+		int orig_sz = trans.size();
+		for (int i = 0; i < orig_sz; i++) {
+			perm &p = trans[i];
+			if (!orbit.count(g[p[base]]))
+				add_orbit(p * g);
+			else
+				subgroup->extend(p * g * ~orbit.at(g[p[base]]));
 		}
 	}
 	inline int size() { return trans.size(); }
